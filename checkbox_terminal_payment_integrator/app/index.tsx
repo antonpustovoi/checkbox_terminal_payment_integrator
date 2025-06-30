@@ -1,15 +1,13 @@
-import { Text, View } from "react-native";
+import { KeyboardProvider } from "react-native-keyboard-controller";
+import { MD3DarkTheme, PaperProvider } from "react-native-paper";
+import { App } from "./App";
 
 export default function Index() {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-    </View>
+    <PaperProvider theme={MD3DarkTheme}>
+      <KeyboardProvider>
+        <App />
+      </KeyboardProvider>
+    </PaperProvider>
   );
 }
