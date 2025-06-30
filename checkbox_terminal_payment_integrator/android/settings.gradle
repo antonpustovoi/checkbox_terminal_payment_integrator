@@ -31,7 +31,7 @@ extensions.configure(com.facebook.react.ReactSettingsExtension) { ex ->
 }
 expoAutolinking.useExpoModules()
 
-rootProject.name = 'checkbox_terminal_payment_integrator'
+rootProject.name = 'Checkbox + Термінал - платіжний інтегратор'
 
 expoAutolinking.useExpoVersionCatalog()
 
