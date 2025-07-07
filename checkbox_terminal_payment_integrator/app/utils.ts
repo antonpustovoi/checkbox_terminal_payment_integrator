@@ -74,3 +74,14 @@ export const getStorageData = async () => {
   const data = await AsyncStorage.getItem("data");
   return data ? JSON.parse(data) : null;
 };
+
+export class Exception extends Error {
+  serverMessage: string | null = null;
+  clientMessage: string | null = null;
+
+  constructor(clientMessage?: string, serverMessage?: string) {
+    super(clientMessage);
+    this.clientMessage = clientMessage ?? null;
+    this.serverMessage = serverMessage ?? null;
+  }
+}
