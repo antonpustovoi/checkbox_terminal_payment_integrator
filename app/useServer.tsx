@@ -8,20 +8,24 @@ import { useState } from "react";
 
 import { Linking } from "react-native";
 import { CheckboxPaymentResult, TerminalPaymentResult } from "./interfaces";
+import { useSnackbar } from "./Snackbar";
 import {
   callPrivatBankApi,
   Exception,
   getDeviceInfo,
   getStorageData,
-  showSnackbar,
   startForegroundService,
 } from "./utils";
 
 let ws: WebSocket | null = null;
 
+let activeTransactionId: number | null = null;
+
 let setIsConnectedRef: ((isConnected: boolean) => void) | null = null;
 
 export function useServer() {
+  const { showSnackbar } = useSnackbar();
+
   const [isConnected, setIsConnected] = useState(
     ws?.readyState === WebSocket.OPEN
   );
@@ -63,7 +67,9 @@ export function useServer() {
     };
 
     ws.onmessage = async (event) => {
-      console.log("WebSocket message", event);
+      const transactionId = Date.now();
+      activeTransactionId = transactionId;
+      console.log("WebSocket message", { event, transactionId });
       try {
         const { amount } = JSON.parse(event.data);
         if (!amount) return;
@@ -87,6 +93,7 @@ export function useServer() {
           "android.intent.action.VIEW",
           { data: url.toString() }
         );
+        if (transactionId !== activeTransactionId) return;
         if (intentResult.resultCode === ResultCode.Canceled)
           throw new Exception("Оплата скасована", "Оплата скасована");
         response = await callPrivatBankApi("/check", { jwt: response.jwt });
@@ -107,7 +114,7 @@ export function useServer() {
             bank_name: "Приватбанк",
           },
         } as CheckboxPaymentResult;
-        showSnackbar("Оплата успішна");
+        showSnackbar("Оплата успішна", "success");
         ws?.send(JSON.stringify(payload));
       } catch (error: any) {
         console.log(error);

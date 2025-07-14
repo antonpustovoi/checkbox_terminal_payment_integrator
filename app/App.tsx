@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { View } from "react-native";
 import { KeyboardAvoidingView } from "react-native-keyboard-controller";
 import { Appbar, Button, Surface, Text, TextInput } from "react-native-paper";
+import { Snackbar } from "./Snackbar";
 import { useServer } from "./useServer";
 import { getStorageData } from "./utils";
 
@@ -86,6 +87,7 @@ export function App() {
           </Text>
         </Button>
       </Surface>
+      <Snackbar />
     </KeyboardAvoidingView>
   );
 }

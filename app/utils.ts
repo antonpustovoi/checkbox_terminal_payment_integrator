@@ -10,7 +10,6 @@ import {
   getUniqueId,
 } from "react-native-device-info";
 import { sha1 } from "react-native-sha256";
-import Snackbar from "react-native-snackbar";
 
 export const callPrivatBankApi = async (path: string, payload: object) => {
   const data = await AsyncStorage.getItem("data");
@@ -49,17 +48,6 @@ export const startForegroundService = async () => {
     },
   });
 };
-
-export const showSnackbar = (message: string) =>
-  Snackbar.show({
-    text: message,
-    duration: Snackbar.LENGTH_LONG,
-    action: {
-      text: "Закрити",
-      textColor: "green",
-      onPress: () => Snackbar.dismiss(),
-    },
-  });
 
 export const getDeviceInfo = async () => {
   const id = await getUniqueId();
